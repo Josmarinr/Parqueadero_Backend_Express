@@ -6,21 +6,21 @@
 
 /* Drop Tables */
 
-DROP TABLE IF EXISTS "Area" CASCADE;
-DROP TABLE IF EXISTS "Contrato" CASCADE;
-DROP TABLE IF EXISTS "Espacio" CASCADE;
-DROP TABLE IF EXISTS "Pago" CASCADE;
-DROP TABLE IF EXISTS "Parqueadero" CASCADE;
-DROP TABLE IF EXISTS "Propietario" CASCADE;
-DROP TABLE IF EXISTS "Propietario_vehiculo" CASCADE;
-DROP TABLE IF EXISTS "Registro" CASCADE;
-DROP TABLE IF EXISTS "Tarifa" CASCADE;
-DROP TABLE IF EXISTS "Vehiculo" CASCADE;
-DROP TABLE IF EXISTS "Vigilante" CASCADE;
+DROP TABLE IF EXISTS Area CASCADE;
+DROP TABLE IF EXISTS Contrato CASCADE;
+DROP TABLE IF EXISTS Espacio CASCADE;
+DROP TABLE IF EXISTS Pago CASCADE;
+DROP TABLE IF EXISTS Parqueadero CASCADE;
+DROP TABLE IF EXISTS Propietario CASCADE;
+DROP TABLE IF EXISTS Propietario_vehiculo CASCADE;
+DROP TABLE IF EXISTS Registro CASCADE;
+DROP TABLE IF EXISTS Tarifa CASCADE;
+DROP TABLE IF EXISTS Vehiculo CASCADE;
+DROP TABLE IF EXISTS Vigilante CASCADE;
 
 /* Create Tables */
 
-CREATE TABLE "Area"
+CREATE TABLE Area
 (
     k_num_area numeric(1) NOT NULL,
     k_iden_parq numeric(4) NULL,
@@ -33,7 +33,7 @@ CREATE TABLE "Area"
     CHECK (k_tipo_iden_vig IN ('CC','CE'))
 );
 
-CREATE TABLE "Contrato"
+CREATE TABLE Contrato
 (
     k_num_contrato numeric(4) NOT NULL,
     k_placa_veh varchar(6) NULL,
@@ -47,7 +47,7 @@ CREATE TABLE "Contrato"
     CHECK (i_tipo_contrato IN ('D','S','M','A'))
 );
 
-CREATE TABLE "Espacio"
+CREATE TABLE Espacio
 (
     k_v_tipo_vehiculo varchar(10) NULL,
     k_num_espacio numeric(2) NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE "Espacio"
     CHECK (v_num_cupos >= 0)
 );
 
-CREATE TABLE "Pago"
+CREATE TABLE Pago
 (
     id_pago numeric(20) NOT NULL,
     f_pago varchar(20) NULL,
@@ -68,7 +68,7 @@ CREATE TABLE "Pago"
     PRIMARY KEY (id_pago)
 );
 
-CREATE TABLE "Parqueadero"
+CREATE TABLE Parqueadero
 (
     k_iden_parq numeric(4) NOT NULL,
     v_zona_ciudad numeric(2) NULL,
@@ -83,7 +83,7 @@ CREATE TABLE "Parqueadero"
     CHECK (i_tipo IN ('S','A'))
 );
 
-CREATE TABLE "Propietario"
+CREATE TABLE Propietario
 (
     k_num_iden_prop numeric(10) NOT NULL,
     k_tipo_iden_prop varchar(2) NOT NULL,
@@ -95,7 +95,7 @@ CREATE TABLE "Propietario"
     PRIMARY KEY (k_num_iden_prop, k_tipo_iden_prop)
 );
 
-CREATE TABLE "Propietario_vehiculo"
+CREATE TABLE Propietario_vehiculo
 (
     k_num_iden_prop numeric(10) NOT NULL,
     k_num_contrato numeric(4) NULL,
@@ -104,7 +104,7 @@ CREATE TABLE "Propietario_vehiculo"
     PRIMARY KEY (k_num_iden_prop, k_placa_veh, k_tipo_iden_prop)
 );
 
-CREATE TABLE "Registro"
+CREATE TABLE Registro
 (
     k_num_registro numeric(10) NOT NULL,
     k_placa_veh varchar(6) NULL,
@@ -119,7 +119,7 @@ CREATE TABLE "Registro"
     CHECK (v_pago_total >= v_tarifa)
 );
 
-CREATE TABLE "Tarifa"
+CREATE TABLE Tarifa
 (
     id_tarifa numeric(3) NOT NULL,
     id_parqueadora varchar(20) NULL,
@@ -128,7 +128,7 @@ CREATE TABLE "Tarifa"
     PRIMARY KEY (id_tarifa)
 );
 
-CREATE TABLE "Vehiculo"
+CREATE TABLE Vehiculo
 (
     k_placa_veh varchar(6) NOT NULL,
     k_num_contrato numeric(40) NULL,
@@ -139,7 +139,7 @@ CREATE TABLE "Vehiculo"
     PRIMARY KEY (k_placa_veh)
 );
 
-CREATE TABLE "Vigilante"
+CREATE TABLE Vigilante
 (
     k_num_iden_vig numeric(10) NOT NULL,
     k_num_area numeric(1) NULL,
@@ -159,32 +159,34 @@ CREATE TABLE "Vigilante"
 
 /* Create Foreign Key Constraints */
 
-ALTER TABLE "Area" ADD CONSTRAINT "FK_Area_Espacio"
-    FOREIGN KEY ("k_num_espacio") REFERENCES "Espacio" ("k_num_espacio") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE Area ADD CONSTRAINT FK_Area_Espacio
+    FOREIGN KEY ("k_num_espacio") REFERENCES Espacio ("k_num_espacio") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-ALTER TABLE "Area" ADD CONSTRAINT "FK_Area_Parqueadero"
+ALTER TABLE Area ADD CONSTRAINT FK_Area_Parqueadero
     FOREIGN KEY ("k_iden_parq") REFERENCES "Parqueadero" ("k_iden_parq") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-ALTER TABLE "Area" ADD CONSTRAINT "FK_Area_Vigilante"
+ALTER TABLE Area ADD CONSTRAINT FK_Area_Vigilante
     FOREIGN KEY ("k_num_iden_vig","k_tipo_iden_vig") REFERENCES "Vigilante" ("k_num_iden_vig","k_tipo_iden_vig") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-ALTER TABLE "Contrato" ADD CONSTRAINT "FK_Contrato_Parqueadero"
+ALTER TABLE Contrato ADD CONSTRAINT FK_Contrato_Parqueadero
     FOREIGN KEY ("k_iden_parq") REFERENCES "Parqueadero" ("k_iden_parq") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-ALTER TABLE "Contrato" ADD CONSTRAINT "FK_Contrato_Propietario"
+ALTER TABLE Contrato ADD CONSTRAINT FK_Contrato_Propietario
     FOREIGN KEY ("k_num_iden_prop","k_tipo_iden_prop") REFERENCES "Propietario" ("k_num_iden_prop","k_tipo_iden_prop") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-ALTER TABLE "Parqueadero" ADD CONSTRAINT "FK_Parqueadero_Tarifa"
+ALTER TABLE Parqueadero ADD CONSTRAINT FK_Parqueadero_Tarifa
     FOREIGN KEY ("id_tarifa") REFERENCES "Tarifa" ("id_tarifa") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-ALTER TABLE "Propietario_vehiculo" ADD CONSTRAINT "FK_Propietario_vehiculo_Propietario"
+ALTER TABLE Propietario_vehiculo ADD CONSTRAINT FK_Propietario_vehiculo_Propietario
     FOREIGN KEY ("k_num_iden_prop","k_tipo_iden_prop") REFERENCES "Propietario" ("k_num_iden_prop","k_tipo_iden_prop") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-ALTER TABLE "Propietario_vehiculo" ADD CONSTRAINT "FK_Propietario_vehiculo_Vehiculo"
+ALTER TABLE Propietario_vehiculo ADD CONSTRAINT FK_Propietario_vehiculo_Vehiculo
     FOREIGN KEY ("k_placa_veh") REFERENCES "Vehiculo" ("k_placa_veh") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-ALTER TABLE "Registro" ADD CONSTRAINT "FK_Registro_Espacio"
+ALTER TABLE Registro ADD CONSTRAINT FK_Registro_Espacio
     FOREIGN KEY ("k_num_espacio") REFERENCES "Espacio" ("k_num_espacio") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-ALTER TABLE "Registro" ADD CONSTRAINT "FK_Registro_Pago"
+ALTER TABLE Registro ADD CONSTRAINT FK_Registro_Pago
     FOREIGN KEY ("id_persona") REFERENCES "Pago" ("id_pago") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+
