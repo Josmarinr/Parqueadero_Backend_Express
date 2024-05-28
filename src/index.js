@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 
 const connectDB = require('./Config/config').connectDB
 const clientRoutes = require('./Routes/clientRoutes')
+const propietarioRoutes = require('./Routes/PropietarioRoutes')
 
 dotenv.config()
 const app = express()
@@ -14,6 +15,7 @@ connectDB()
 app.use(bodyParser.json())
 app.use(cors())
 app.use(clientRoutes)
+app.use(propietarioRoutes)
 
 
 app.get('/', (req,res) => {

@@ -17,11 +17,13 @@ const createClient = async (userData) => {
 }
 
 const getAllClients = async () => {
-    const query = 'SELECT * FROM Cliente;'
+    const query = 'SELECT * FROM Cliente'
     try {
         const res = await pool.query(query)
         return res.rows;
+        console.log(res.rows)
     } catch (err) {
+        console.log(err)
         throw err;
     }
 }
