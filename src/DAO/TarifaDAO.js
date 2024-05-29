@@ -18,11 +18,10 @@ const createTarifa = async (Data) => {
 const getAllTarifa = async () => {
     const query = 'SELECT * FROM Tarifa'
     try {
+        await pool.connect();
         const res = await pool.query(query)
         return res.rows;
-        console.log(res.rows)
     } catch (err) {
-        console.log(err)
         throw err;
     }
 }

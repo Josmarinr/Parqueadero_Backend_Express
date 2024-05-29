@@ -8,4 +8,12 @@ const GetAllPropietarios = async () => {
     return await PropietarioDao.GetAllPropietarios()
 }
 
-module.exports = {CreatePropietario, GetAllPropietarios}
+const UpdatePropietario = async (Data) => {
+    return await PropietarioDao.UpdatePropietario(Data)
+}
+
+const DeletePropietario = async (k_num_iden_prop) => {
+    return await PropietarioDao.DeletePropietario(k_num_iden_prop)
+}
+
+module.exports = {CreatePropietario, GetAllPropietarios, UpdatePropietario, DeletePropietario}

@@ -17,6 +17,23 @@ const GetAllPropietarios = async (req, res) => {
         res.status(500).json({ message: err.message })
     }
 }
+const UpdatePropietario = async (req, res) => {
+    try{
+        const propietario = await PropietarioService.UpdatePropietario(req.body)
+        res.status(201).json(propietario)
+    }catch (err){
+        res.status(500).json({ message: err.message })
+    }
+}
 
-module.exports = {CreatePropietario, GetAllPropietarios}
+const DeletePropietario = async (req, res) => {
+    try{
+        const propietario = await PropietarioService.DeletePropietario(req.body)
+        res.status(201).json(propietario)
+    }catch (err){
+        res.status(500).json({ message: err.message })
+    }
+}
+
+module.exports = {CreatePropietario, GetAllPropietarios, UpdatePropietario, DeletePropietario}
 

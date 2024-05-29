@@ -12,6 +12,7 @@ const createParqueadero = async (Data) => {
         return res.rows[0];
     }catch (err) {
         throw err
+        console.log(err)
     }
 }
 

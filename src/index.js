@@ -37,7 +37,6 @@ app.use(tarifaRoutes)
 app.use(vehiculoRoutes)
 app.use(vigilanteRoutes)
 
-
 app.get('/', (req,res) => {
     res.send('Backend Parqueaderos')
 })
